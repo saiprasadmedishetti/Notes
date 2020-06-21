@@ -1,0 +1,33 @@
+@import "variables";
+
+html,
+body {
+  height: 100%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .header {
+    flex-shrink: 0;
+    background-color: $light-gray-2;
+    border-bottom: 1px solid #00000010;
+  }
+  .base {
+    display: flex;
+    justify-content: stretch;
+    flex: 1;
+    overflow: auto;
+    .sidebar {
+      flex: 0 0 250px;
+      max-width: 250px;
+      border-right: 1px solid $light-gray-1;
+      overflow: auto;
+    }
+    .content {
+      flex: 1;
+      max-width: 100%;
+      overflow: auto;
+    }
+  }
+}

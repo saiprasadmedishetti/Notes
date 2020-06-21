@@ -1,0 +1,9 @@
+<ul class="nav flex-column">
+  <li class="nav-item" *ngFor="let note of notes">
+    <h5 class="title text-truncate mb-1">{{ note.title }}</h5>
+    <div class="description text-truncate">
+      <span class="time mr-1">{{ note.time }}</span>
+      <span class="text-muted">{{ note.description }}</span>
+    </div>
+  </li>
+</ul>

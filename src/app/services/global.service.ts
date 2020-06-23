@@ -1,11 +1,15 @@
 import { Injectable } from "@angular/core";
-import { Subject, Observable } from "rxjs";
+import { Subject, Observable, Subscription } from "rxjs";
+import { NgRedux } from "@angular-redux/store";
+import { IAppState } from "../store";
+import { ADD_NOTE } from "../action-types";
 
 @Injectable({
   providedIn: "root",
 })
 export class GlobalService {
-  constructor() {}
+  overlayExpand: boolean = false;
+  constructor(private ngRedux: NgRedux<IAppState>) {}
 
   private noteSubject = new Subject<any>();
   private searchTextSubject = new Subject<string>();

@@ -1,5 +1,10 @@
+<div class="side-header">
+  <a href="javascript:void(0);" class="btn-close" (click)="menuCollapse()">
+    <i class="fas fa-times"></i>
+  </a>
+</div>
 <ul class="nav flex-column">
-  <li class="nav-item" *ngIf="newNote && newNote.title">
+  <li class="nav-item" *ngIf="newNote && newNote.title && !newNote.id">
     <h5 class="title text-truncate mb-1">{{ newNote.title }}</h5>
     <div class="description text-truncate">
       <span class="time mr-1">{{ newNote.time | date: "hh:mm a" }}</span>
@@ -10,13 +15,14 @@
   <li
     class="nav-item"
     [class.active]="note.id === selectedId"
-    *ngFor="let note of notes | search: searchText"
+    *ngFor="let note of allNotes | search: searchText"
     (click)="onSelect(note)"
   >
     <h5 class="title text-truncate mb-1">{{ note.title }}</h5>
     <div class="description text-truncate">
-      <span class="time mr-1">{{ note.time }}</span>
+      <span class="time mr-1">{{ note.time | date: "hh:mm a" }}</span>
       <span class="text-muted">{{ note.description }}</span>
     </div>
   </li>
 </ul>
+<div class="overlay-block" [class.show]="globalService.overlayExpand"></div>

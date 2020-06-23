@@ -20,4 +20,9 @@
       (ngModelChange)="setNote()"
     ></textarea>
   </div>
+  <div class="form-group">
+    <button class="btn btn-primary" *ngIf="note.id" (click)="updateNote()">
+      Update
+    </button>
+  </div>
 </div>

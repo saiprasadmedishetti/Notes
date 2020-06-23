@@ -3,7 +3,7 @@
     <app-header></app-header>
   </header>
   <div class="base">
-    <aside class="sidebar">
+    <aside class="sidebar" [class.open]="globalService.overlayExpand">
       <app-sidebar></app-sidebar>
     </aside>
     <main class="content">

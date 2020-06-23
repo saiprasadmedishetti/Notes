@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { GlobalService } from "src/app/services/global.service";
+import { NgRedux, select } from "@angular-redux/store";
+import { IAppState, INote } from "src/app/store";
 
 @Component({
   selector: "app-sidebar",
@@ -12,40 +14,52 @@ export class SidebarComponent implements OnInit {
   searchText: string = "";
   noteSubscription: Subscription;
   searchTextSubscription: Subscription;
+  newNoteSubscription: Subscription;
   selectedId: string = "";
 
-  notes: any[] = [
-    {
-      id: "1592737567412",
-      title: "This is the first one",
-      description: "First note description goes here",
-      time: "3:20 PM",
-    },
-    {
-      id: "1592737567413",
-      title: "This is the second one",
-      description: "Second note description goes here",
-      time: "9:06 AM",
-    },
-    {
-      id: "1592737567414",
-      title: "This is the third one",
-      description: "Third note description goes here",
-      time: "11:06 AM",
-    },
-  ];
-  constructor(private globalService: GlobalService) {}
+  allNotes: any;
+
+  @select() notes: Observable<INote>;
+  selectedNoteSubscription: Subscription;
+  selectedNote: any;
+  constructor(
+    private globalService: GlobalService,
+    private ngRedux: NgRedux<IAppState>
+  ) {}
 
   ngOnInit() {
-    this.selectedId = "1592737567412";
+    this.getAllNotes();
+    // this.getSelectedNote();
     this.getNewNote();
     this.getSearchText();
+    this.onSelect(this.allNotes[0]);
   }
-  getNewNote() {
-    this.noteSubscription = this.globalService.getNote().subscribe((note) => {
-      this.newNote = note;
+  menuCollapse() {
+    this.globalService.overlayExpand = false;
+  }
+  getAllNotes() {
+    this.notes.subscribe((notes) => {
+      this.allNotes = notes;
     });
   }
+
+  getSelectedNote() {
+    this.selectedNoteSubscription = this.globalService
+      .getSelectedNote()
+      .subscribe((note) => {
+        this.selectedNote = note;
+      });
+  }
+
+  getNewNote() {
+    this.newNoteSubscription = this.globalService
+      .getNote()
+      .subscribe((note) => {
+        console.log("note", note);
+        this.newNote = note;
+      });
+  }
+
   getSearchText() {
     this.searchTextSubscription = this.globalService
       .getSearchText()
@@ -59,7 +73,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.noteSubscription.unsubscribe();
     this.searchTextSubscription.unsubscribe();
+    this.newNoteSubscription.unsubscribe();
+    this.selectedNoteSubscription.unsubscribe();
   }
 }

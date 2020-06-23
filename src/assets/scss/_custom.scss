@@ -8,7 +8,7 @@ body {
 
 .header {
   .nav {
-    height: 50px;
+    min-height: 50px;
     align-items: center;
     justify-content: center;
     .nav-item {
@@ -53,6 +53,10 @@ body {
     }
     &.active {
       background-color: $accent;
+      border-color: $accent;
+      & + .nav-item {
+        border-color: $accent;
+      }
     }
   }
 }
@@ -71,5 +75,69 @@ body {
     color: $text-light;
     pointer-events: none;
     transition: 0.1s ease;
+  }
+}
+.btn-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.1rem;
+  width: 2.1rem;
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: $text-color;
+}
+.side-header {
+  display: none;
+  padding: 0.5rem;
+  text-align: right;
+  background-color: $light-gray-2;
+}
+.block-overlay {
+  display: none;
+}
+@media (max-width: 576px) {
+  .header {
+    .nav {
+      padding-top: 0.5rem;
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+  .sidebar {
+    position: fixed;
+    z-index: 9999999;
+    background: white;
+    bottom: 0;
+    top: 0;
+    transition: 0.2s transform ease-in-out;
+    transform: translateX(-100%);
+    &.open {
+      transform: translateX(0);
+    }
+  }
+  .side-header {
+    display: block;
+  }
+  .block-overlay.show {
+    display: block;
+    position: fixed;
+    z-index: 999999;
+    background: #00000050;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+@media (max-width: 430px) {
+  .header .nav .nav-item {
+    &:last-child {
+      margin-left: 0;
+    }
+    .form-control {
+      width: 236px;
+    }
   }
 }
